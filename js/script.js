@@ -1,4 +1,4 @@
-class TodoList {
+   class TodoList {
     constructor(el) {
         this.todos = [];
         this.el = el;  
@@ -23,25 +23,15 @@ class TodoList {
         let index = this.todos.findIndex((el) => el.id === id);
         this.todos[index].status = !this.todos[index].status;
         let idList = document.querySelector(`[data-id="${id}"]`);
-        this.changeBackGround(index, idList)
-    }
-    changeBackGround(index, id) {
-        if (this.todos[index].status) {
-            id.classList.toggle("not-done");
-            id.classList.toggle("done")
-        } else {
-            id.classList.toggle("done")
-            id.classList.toggle("not-done");
-        }
+        idList.classList.toggle("done");
     }
     render() {
         let lis = '';
         for (let el of this.todos) {
             if (!el) {
                 return;
-            }
-            let doneOrNot = el.status ? "done" : "not-done";
-            lis += `<li class="${doneOrNot}" data-id="${el.id}">${el.value}<button class="set-status">Change status</button><button class="delete-task"></button></li>`;
+            }  
+            lis += `<li class="not-done ${el.status ? "done" : "not-done"}" data-id="${el.id}">${el.value}<button class="set-status">Change status</button><button class="delete-task"></button></li>`;
         }
         this.el.innerHTML = lis;
     }
@@ -64,18 +54,15 @@ class Task {
 
 let input = document.getElementById('inputText');
 let ul = document.getElementById('list');
-let findLi = document.getElementById('find')
-let btn = document.getElementById('createBtn');
+let findLi = document.getElementById('find');
+let createBtn = document.getElementById('createBtn');
 
 let todo = new TodoList(ul);
 
-btn.addEventListener('click', function (event) {
-    let e = event.target;
-    if (e) {
-        todo.addTodo(new Task(input.value, false));
-        todo.render();
-        input.value = "";
-    }
+createBtn.addEventListener('click', function () {
+    todo.addTodo(new Task(input.value, false));
+    todo.render();
+    input.value = "";  
 });
 
 ul.addEventListener('click', (event) => {
@@ -90,5 +77,5 @@ ul.addEventListener('click', (event) => {
 });
 
 findLi.addEventListener('click', function () {
-    todo.findTasks(input.value)
+    todo.findTasks(input.value);
 });
