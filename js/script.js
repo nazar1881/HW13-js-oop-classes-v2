@@ -1,7 +1,17 @@
-   class TodoList {
+class TodoList {
     constructor(el) {
         this.todos = [];
         this.el = el;  
+        ul.addEventListener('click', (event) => {
+            let e = event.target;
+            let dataId = event.target.closest('[data-id]').dataset.id;
+            if (e.className === 'set-status') {
+                todo.changeStatus(dataId);
+                
+            } else if (e.className === 'delete-task') {
+                todo.removeTodo(dataId);
+            }
+        });
     }
     addTodo(todo) {
         this.todos.push(todo);
@@ -54,7 +64,7 @@ class Task {
 
 let input = document.getElementById('inputText');
 let ul = document.getElementById('list');
-let findLi = document.getElementById('find');
+let findLiValue = document.getElementById('find');
 let createBtn = document.getElementById('createBtn');
 
 let todo = new TodoList(ul);
@@ -65,17 +75,6 @@ createBtn.addEventListener('click', function () {
     input.value = "";  
 });
 
-ul.addEventListener('click', (event) => {
-    let e = event.target;
-    let dataId = event.target.closest('[data-id]').dataset.id;
-    if (e.className === 'set-status') {
-        todo.changeStatus(dataId);
-        
-    } else if (e.className === 'delete-task') {
-        todo.removeTodo(dataId);
-    }
-});
-
-findLi.addEventListener('click', function () {
+findLiValue.addEventListener('click', function () {
     todo.findTasks(input.value);
 });
